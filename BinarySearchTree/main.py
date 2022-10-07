@@ -89,7 +89,20 @@ class BST:
         return self.counter
 
     def get_root_data(self):
-        return self.value    
+        return self.value
+
+    def get_height(self):
+        if self.left and self.right:
+            return 1 + max(self.left.get_height(), self.right.get_height())
+
+        elif self.left:
+            return 1 + self.left.get_height()
+
+        elif self.right:
+            return 1 + self.right.get_height()
+
+        else:
+            return 1                    
 
     def __str__(self):
         return f"{self.value}" 
@@ -108,13 +121,5 @@ print(bst.postorder())
 print(bst.preorder())
 print(bst.get_root_data())
 print(bst.get_number_of_nodes())
+print(bst.get_height())
 bst.clear()     
-
-
-
-
-
-
-
-
-
