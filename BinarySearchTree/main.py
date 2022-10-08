@@ -32,9 +32,11 @@ class BST:
        self.right = None
        self.left = None
        self.value = None        
-          
 
     def contains(self, value):
+        if not self.value:
+            return False
+
         if self.value == value:
             return True
 
@@ -84,7 +86,29 @@ class BST:
             self.right.preorder(values)
 
         return values
-  
+
+    def __printCurrentLevel(self, level):
+        if self is None:
+            return
+
+        if level == 1:
+            print(self.value, end=" ")
+
+        elif self.value > 1:
+            if self.left and self.right:
+                self.left.__printCurrentLevel(level - 1)
+                self.right.__printCurrentLevel(level - 1)
+
+            elif self.left:
+                self.left.__printCurrentLevel(level - 1)
+
+            elif self.right:
+                self.right.__printCurrentLevel(level - 1)
+    def levelorder(self):
+        h = self.get_height()
+        for i in range(1, h + 1):
+            self.__printCurrentLevel(i)
+
     def get_number_of_nodes(self):
         return self.counter
 
@@ -92,6 +116,9 @@ class BST:
         return self.value
 
     def get_height(self):
+        if self.value is None:
+            return 0
+
         if self.left and self.right:
             return 1 + max(self.left.get_height(), self.right.get_height())
 
@@ -102,7 +129,7 @@ class BST:
             return 1 + self.right.get_height()
 
         else:
-            return 1                    
+            return 1
 
     def __str__(self):
         return f"{self.value}" 
@@ -115,6 +142,8 @@ bst.insert(8)
 bst.insert(2)
 bst.insert(5)
 bst.insert(2)
+bst.insert(10)
+print(bst.levelorder())
 print(bst.inorder())
 print(bst.contains(1)) 
 print(bst.postorder())
