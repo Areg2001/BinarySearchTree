@@ -82,6 +82,25 @@ class BST:
                 return False
 
             return self.right.contains(value)
+
+    def find(self, value):
+        if not self.value:
+            return False
+
+        if self.value == value:
+            return self.value
+
+        if value <= self.value:
+            if not self.left:
+                return False
+
+            return self.left.find(value)
+
+        else:
+            if not self.right:
+                return False
+
+            return self.right.find(value)
            
     def inorder(self, values=[]):
         if self.left:
@@ -226,5 +245,6 @@ bst1.insert(6)
 bst1.insert(1)
 bst1.insert(2)
 bst1.insert(5)
+print(bst.find(6))
 print(bst.levelorder())
 
