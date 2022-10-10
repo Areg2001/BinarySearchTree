@@ -28,6 +28,37 @@ class BST:
             else:
                 self.right = BST(value)
 
+    def erase(self, value):
+        if self is None:
+            return None
+
+        if value < self.value:
+            if self.left:
+                self.left = self.left.erase(value)
+
+            return self
+
+        if value > self.value:
+            if self.right:
+                self.right = self.right.erase(value)
+
+            return self
+
+        if self.right == None:
+            return self.left
+
+        if self.left == None:
+            return self.right
+
+        min_bigger_node = self.right
+        while min_bigger_node.left:
+            min_bigger_node = min_bigger_node.left
+
+        self.value = min_bigger_node.value
+        self.right = self.right.erase(min_bigger_node.value)
+
+        return self
+
     def clear(self):
        self.right = None
        self.left = None
@@ -104,6 +135,7 @@ class BST:
 
             elif self.right:
                 self.right.__printCurrentLevel(level - 1)
+                
     def levelorder(self):
         h = self.get_height()
         for i in range(1, h + 1):
@@ -131,24 +163,63 @@ class BST:
         else:
             return 1
 
+    def __eq__(self, other):
+        if (not self) and (not other):
+            return True
+
+        if (self and other) and self.value == other.value:
+            left = self.left.__eq__(other.left)
+            right = self.right.__eq__(other.right)
+
+            if left and right:
+                return True
+
+            return False
+
+        return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    # def __add__(self, other):
+    #     if (not self) and (not other):
+    #         return None
+    #
+    #     if not self:
+    #         return other
+    #
+    #     if not other:
+    #         return self
+    #
+    #     self.value += other.value
+    #     if self.left and self.right:
+    #         self.left = self.left.__add__(other.left)
+    #         self.right = self.right.__add__(other.right)
+    #
+    #     elif self.left and other.left:
+    #         self.left = self.left.__add__(other.left)
+    #
+    #     elif self.right:
+    #         self.right = self.right.__add__(other.right)
+
+
     def __str__(self):
-        return f"{self.value}" 
+        return f"{self.value}"
 
              
 bst = BST()
 bst.insert(7)
 bst.insert(6)
-bst.insert(8)
 bst.insert(2)
 bst.insert(5)
-bst.insert(2)
-bst.insert(10)
-print(bst.levelorder())
-print(bst.inorder())
-print(bst.contains(1)) 
-print(bst.postorder())
-print(bst.preorder())
-print(bst.get_root_data())
-print(bst.get_number_of_nodes())
-print(bst.get_height())
-bst.clear()
+bst.insert(8)
+bst.erase(2)
+bst1 = BST()
+bst1.insert(7)
+bst1.insert(6)
+bst1.insert(1)
+bst1.insert(2)
+bst1.insert(5)
+print(bst1)
+print(bst == bst1)
+print(bst != bst1)
