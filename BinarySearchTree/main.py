@@ -141,6 +141,8 @@ class BST:
         for i in range(1, h + 1):
             self.__printCurrentLevel(i)
 
+        return "Tree Levelorder"
+
     def get_number_of_nodes(self):
         return self.counter
 
@@ -181,27 +183,31 @@ class BST:
     def __ne__(self, other):
         return not self.__eq__(other)
 
-    # def __add__(self, other):
-    #     if (not self) and (not other):
-    #         return None
-    #
-    #     if not self:
-    #         return other
-    #
-    #     if not other:
-    #         return self
-    #
-    #     self.value += other.value
-    #     if self.left and self.right:
-    #         self.left = self.left.__add__(other.left)
-    #         self.right = self.right.__add__(other.right)
-    #
-    #     elif self.left and other.left:
-    #         self.left = self.left.__add__(other.left)
-    #
-    #     elif self.right:
-    #         self.right = self.right.__add__(other.right)
+    def __add__(self, other):
+        return self.__iadd__(other)
 
+    def __iadd__(self, other):
+        if (not self) and (not other):
+            return None
+
+        if not self:
+            return other
+
+        if not other:
+            return self
+
+        self.value += other.value
+        if self.left and self.right:
+           self.left.__iadd__(other.left)
+           self.right.__iadd__(other.right)
+
+        elif self.left:
+            self.left.__iadd__(other.left)
+
+        elif self.right:
+            self.right.__iadd__(other.right)
+
+        return self
 
     def __str__(self):
         return f"{self.value}"
@@ -220,6 +226,5 @@ bst1.insert(6)
 bst1.insert(1)
 bst1.insert(2)
 bst1.insert(5)
-print(bst1)
-print(bst == bst1)
-print(bst != bst1)
+print(bst.levelorder())
+
