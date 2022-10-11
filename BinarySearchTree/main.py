@@ -1,14 +1,10 @@
 class BST:
-    counter = 0
+
     def __init__(self, value=None):
         self.right = None
         self.left = None
         self.value = value
-        BST.counter += 1
-
-    def __del__(self):
-        BST.counter -= 1
-
+        
     def insert(self, value):
         """This function takes one argument and is inserting it into the BST."""
 
@@ -70,8 +66,7 @@ class BST:
         self.left = None
         self.value = None
 
-    def get_count_of_nodes(self):
-        return len(self.postorder())
+
     def contains(self, value):
         """This function takes one argument and find it into BST. If BST contain, function returns True else False."""
 
@@ -167,24 +162,24 @@ class BST:
 
     def merge(self, other):
         """This function returns list of two merged BST's values."""
-
-        arr1 = self.inorder()
-        arr2 = other.inorder()
-
-        swapped = True
-        while swapped:
-            swapped = False
-            for i in range(len(arr1) - 1):
-                if arr1[i] > arr1[i + 1]:
-                    arr1[i], arr1[i + 1] = arr1[i + 1], arr1[i]
-                    swapped = True
-
-        return arr1
+        pass
 
     def get_number_of_nodes(self):
         """This function returns count of BST nodes."""
-        return BST.counter
+        
+        if self.left and self.right:
+            return 1 + self.left.get_number_of_nodes() + self.right.get_number_of_nodes()
 
+        elif self.left:
+            return 1 + self.left.get_number_of_nodes()
+
+        elif self.right:
+            return 1 + self.right.get_number_of_nodes()
+
+        else:
+            return 1
+
+    
     def get_root_data(self):
         """This function returns BST root value."""
 
@@ -276,8 +271,8 @@ bst1 = BST()
 bst1.insert(7)
 bst1.insert(6)
 bst.erase(2)
-bst1.insert(1)
-bst1.insert(2)
+bst1.insert(6)
+bst1.insert(8)
 bst1.insert(5)
 print(bst.levelorder())
 print(bst.preorder())
@@ -292,4 +287,9 @@ print(bst1.contains(3))
 print(bst.find(5))
 print(bst1.find(7))
 print(bst.get_number_of_nodes())
-
+print(bst1.get_number_of_nodes())
+print((bst + bst1).get_number_of_nodes())
+print(bst == bst1)
+print(bst != bst1)
+bst += bst1
+print(bst)
