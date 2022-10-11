@@ -84,23 +84,7 @@ class BST:
             return self.right.contains(value)
 
     def find(self, value):
-        if not self.value:
-            return False
-
-        if self.value == value:
-            return self.value
-
-        if value <= self.value:
-            if not self.left:
-                return False
-
-            return self.left.find(value)
-
-        else:
-            if not self.right:
-                return False
-
-            return self.right.find(value)
+        return self.contains(value)
            
     def inorder(self, values=[]):
         if self.left:
@@ -160,7 +144,7 @@ class BST:
         for i in range(1, h + 1):
             self.__printCurrentLevel(i)
 
-        return "Tree Levelorder"
+        return ""
 
     def get_number_of_nodes(self):
         return self.counter
@@ -203,33 +187,35 @@ class BST:
         return not self.__eq__(other)
 
     def __add__(self, other):
-        return self.__iadd__(other)
+        if not self and not other:
+            return None
+        value1 = self.value if self else 0
+        value2 = other.value if other else 0
+
+        root = BST(value1 + value2)
+
+        root.left = BST.__add__(self.left if self else None, other.left if other else None)
+        root.right = BST.__add__(self.right if self else None, other.right if other else None)
+
+        return root
 
     def __iadd__(self, other):
-        if (not self) and (not other):
+        if not self and not other:
             return None
+        value1 = self.value if self else 0
+        value2 = other.value if other else 0
 
-        if not self:
-            return other
+        root = BST(value1 + value2)
 
-        if not other:
-            return self
+        root.left = BST.__iadd__(self.left if self else None, other.left if other else None)
+        root.right = BST.__iadd__(self.right if self else None, other.right if other else None)
 
-        self.value += other.value
-        if self.left and self.right:
-           self.left.__iadd__(other.left)
-           self.right.__iadd__(other.right)
-
-        elif self.left:
-            self.left.__iadd__(other.left)
-
-        elif self.right:
-            self.right.__iadd__(other.right)
+        self = root
 
         return self
 
     def __str__(self):
-        return f"{self.value}"
+        return self.levelorder()
 
              
 bst = BST()
@@ -238,13 +224,16 @@ bst.insert(6)
 bst.insert(2)
 bst.insert(5)
 bst.insert(8)
-bst.erase(2)
+#bst.erase(2)
 bst1 = BST()
 bst1.insert(7)
 bst1.insert(6)
 bst1.insert(1)
 bst1.insert(2)
 bst1.insert(5)
-print(bst.find(6))
-print(bst.levelorder())
+print(bst.find(8))
+print(bst == bst1)
+print(bst.postorder())
+print(bst + bst1)
+
 
