@@ -1,0 +1,47 @@
+Doing test I find my mistakes and fixed them.
+1.When want to know tree's height you get incorrect answer.
+2.When want to know count of tree nodes you get incorrect answer.
+3.When you want to print the tree you get error.
+
+WARNING: You can't insert or erase more then one value at once.
+	Nothing will be saved after deleteing tree.
+	Merge method doesn't change the tree, it returns list of merged tree values.
+	
+Creating tree and using it.
+Using insert method.
+	bst = BST()
+	bst.insert(2)
+	bst.insert(5)
+	bst.insert(6)
+
+Using erase method.
+	bst.erase(5)
+
+Using find and contains methods.
+	bst.find(4)
+	bst.contains(6)
+
+Using get_number_of_nodes method.
+	print(bst.get_number_of_nodes())
+
+Using get_root_data.
+	print(bst.get_root_data())
+
+Using get_height method.
+	print(bst.get_height)
+
+Using merge method.
+	bst1 = BST()
+	bst1.insert(7)
+	print(bst.merge(bst1))
+
+Using inorder,postorder,preorder,levelorder methods.
+	print(bst1.postorder())
+	print(bst.inorder())
+	print(bst.levelorder())
+	print(bst.preorder())
+
+Using clear method.
+	bst.clear()
+
+ 

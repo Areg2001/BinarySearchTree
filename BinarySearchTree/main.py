@@ -1,12 +1,16 @@
+"""Main Module"""
+
+
 class BST:
+    """Binary Search Tree"""
 
     def __init__(self, value=None):
         self.right = None
         self.left = None
         self.value = value
-        
+
     def insert(self, value):
-        """This function takes one argument and is inserting it into the BST."""
+        """This method takes a value and inserts the value in the BST."""
 
         if not self.value:
             self.value = value
@@ -27,7 +31,9 @@ class BST:
                 self.right = BST(value)
 
     def erase(self, value):
-        """This function takes one argument and deleting it if BST contain it, otherwise it does not do anything."""
+        """This method takes a value and deletes the value from BST
+           If there is no any node with the given value, doesn't do anything.
+        """
         if self is None:
             return None
 
@@ -43,10 +49,10 @@ class BST:
 
             return self
 
-        if self.right == None:
+        if not self.right:
             return self.left
 
-        if self.left == None:
+        if not self.left:
             return self.right
 
         min_bigger_node = self.right
@@ -60,15 +66,14 @@ class BST:
         return self
 
     def clear(self):
-        """This function is deleting BST."""
+        """This method deletes all nodes from BST."""
 
         self.right = None
         self.left = None
         self.value = None
 
-
     def contains(self, value):
-        """This function takes one argument and find it into BST. If BST contain, function returns True else False."""
+        """This method takes a value and checks whether the value is in BST."""
 
         if not self.value:
             return False
@@ -82,19 +87,21 @@ class BST:
 
             return self.left.contains(value)
 
-        else:
-            if not self.right:
-                return False
+        if not self.right:
+            return False
 
-            return self.right.contains(value)
+        return self.right.contains(value)
 
     def find(self, value):
-        """This function takes one argument and find it into BST. If BST contain, function returns True else False."""
+        """This method takes a value and checks whether the value is in BST."""
 
         return self.contains(value)
 
-    def inorder(self, values=[]):
-        """This function returns list of BST's values in order."""
+    def inorder(self, values=None):
+        """This method returns list of BSTs values in order."""
+        if values is None:
+            values = []
+
         if self.left:
             self.left.inorder(values)
 
@@ -106,7 +113,7 @@ class BST:
         return values
 
     def postorder(self):
-        """This function returns list of BST's values in post order."""
+        """This method returns list of BSTs values in post-order."""
         if self.left:
             self.left.postorder()
 
@@ -118,8 +125,11 @@ class BST:
 
         return " "
 
-    def preorder(self, values=[]):
-        """This function returns list of BST's values in pre order."""
+    def preorder(self, values=None):
+        """This method returns list of BSTs values in pre-order."""
+
+        if values is None:
+            values = []
 
         if self.value:
             values.append(self.value)
@@ -132,7 +142,7 @@ class BST:
 
         return values
 
-    def __printCurrentLevel(self, level):
+    def __print_current_level(self, level):
 
         if self is None:
             return self
@@ -142,51 +152,61 @@ class BST:
 
         elif self.value > 1:
             if self.left and self.right:
-                self.left.__printCurrentLevel(level - 1)
-                self.right.__printCurrentLevel(level - 1)
+                self.left.__print_current_level(level - 1)
+                self.right.__print_current_level(level - 1)
 
             elif self.left:
-                self.left.__printCurrentLevel(level - 1)
+                self.left.__print_current_level(level - 1)
 
             elif self.right:
-                self.right.__printCurrentLevel(level - 1)
+                self.right.__print_current_level(level - 1)
 
-    def levelorder(self):
-        """This function returns BST's values in level order."""
+    def level_order(self):
+        """This method returns BSTs values in level-order."""
 
-        h = self.get_height()
-        for i in range(1, h + 1):
-            self.__printCurrentLevel(i)
+        height = self.get_height()
+
+        for i in range(1, height + 1):
+            self.__print_current_level(i)
 
         return " "
 
     def merge(self, other):
-        """This function returns list of two merged BST's values."""
-        pass
+        """This method returns list of two merged BSTs values."""
+
+        arr = self.inorder() + other.inorder()
+
+        swapped = True
+
+        while swapped:
+            swapped = False
+            for i in range(len(arr) - 1):
+                if arr[i] > arr[i + 1]:
+                    arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                    swapped = True
+        return arr
 
     def get_number_of_nodes(self):
-        """This function returns count of BST nodes."""
-        
+        """This method returns the count of BST nodes."""
+
         if self.left and self.right:
             return 1 + self.left.get_number_of_nodes() + self.right.get_number_of_nodes()
 
-        elif self.left:
+        if self.left:
             return 1 + self.left.get_number_of_nodes()
 
-        elif self.right:
+        if self.right:
             return 1 + self.right.get_number_of_nodes()
 
-        else:
-            return 1
+        return 1
 
-    
     def get_root_data(self):
-        """This function returns BST root value."""
+        """This method returns BSTs root value."""
 
         return self.value
 
     def get_height(self):
-        """This function returns BST's height."""
+        """This method returns BSTs height."""
 
         if self.value is None:
             return 0
@@ -194,17 +214,16 @@ class BST:
         if self.left and self.right:
             return 1 + max(self.left.get_height(), self.right.get_height())
 
-        elif self.left:
+        if self.left:
             return 1 + self.left.get_height()
 
-        elif self.right:
+        if self.right:
             return 1 + self.right.get_height()
 
-        else:
-            return 1
+        return 1
 
     def __eq__(self, other):
-        """This method checks if two BST are equal or not, and returns True if equal else False."""
+        """This method checks whether two BSTs are equal."""
 
         if (not self) and (not other):
             return True
@@ -216,20 +235,19 @@ class BST:
             if left and right:
                 return True
 
-            return False
-
         return False
 
     def __ne__(self, other):
-        """This method checks if two BST are equal or not, and returns True if not equal else False."""
+        """This method checks whether two BSTs are not equal."""
 
         return not self.__eq__(other)
 
     def __add__(self, other):
-        """This method is adding two BST."""
+        """This method adds two BSTs."""
 
         if not self and not other:
             return None
+
         value1 = self.value if self else 0
         value2 = other.value if other else 0
 
@@ -241,9 +259,11 @@ class BST:
         return root
 
     def __iadd__(self, other):
-        """This method is adding two BST and assign it BST, which was writed first."""
+        """This method adds two BSTs and assign the result to the instance."""
+
         if not self and not other:
             return None
+
         value1 = self.value if self else 0
         value2 = other.value if other else 0
 
@@ -252,44 +272,7 @@ class BST:
         root.left = BST.__iadd__(self.left if self else None, other.left if other else None)
         root.right = BST.__iadd__(self.right if self else None, other.right if other else None)
 
-        self = root
+        return root
 
-        return self
-
-    def __str__(self, other=None):
-        return f"{self.postorder()}"
-
-
-
-bst = BST()
-bst.insert(7)
-bst.insert(6)
-bst.insert(2)
-bst.insert(5)
-bst.insert(8)
-bst1 = BST()
-bst1.insert(7)
-bst1.insert(6)
-bst.erase(2)
-bst1.insert(6)
-bst1.insert(8)
-bst1.insert(5)
-print(bst.levelorder())
-print(bst.preorder())
-print(bst.postorder())
-print(bst.inorder())
-print(bst1)
-print(bst)
-print(bst.merge(bst1))
-print(bst.get_root_data())
-print(bst.contains(7))
-print(bst1.contains(3))
-print(bst.find(5))
-print(bst1.find(7))
-print(bst.get_number_of_nodes())
-print(bst1.get_number_of_nodes())
-print((bst + bst1).get_number_of_nodes())
-print(bst == bst1)
-print(bst != bst1)
-bst += bst1
-print(bst)
+    def __str__(self):
+        return f"{self.inorder()}"
