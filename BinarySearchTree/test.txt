@@ -6,6 +6,7 @@ Doing test I find my mistakes and fixed them.
 WARNING: You can't insert or erase more then one value at once.
 	Nothing will be saved after deleteing tree.
 	Merge method doesn't change the tree, it returns list of merged tree values.
+	Don't try insert anything except a number.
 	
 Creating tree and using it.
 Using insert method.
