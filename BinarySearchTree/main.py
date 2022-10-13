@@ -1,6 +1,5 @@
 """Main Module"""
 
-
 class BST:
     """Binary Search Tree"""
 
@@ -261,18 +260,7 @@ class BST:
     def __iadd__(self, other):
         """This method adds two BSTs and assign the result to the instance."""
 
-        if not self and not other:
-            return None
-
-        value1 = self.value if self else 0
-        value2 = other.value if other else 0
-
-        root = BST(value1 + value2)
-
-        root.left = BST.__iadd__(self.left if self else None, other.left if other else None)
-        root.right = BST.__iadd__(self.right if self else None, other.right if other else None)
-
-        return root
+        return self.__add__(other)
 
     def __str__(self):
         return f"{self.inorder()}"
